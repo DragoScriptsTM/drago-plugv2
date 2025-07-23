@@ -30,3 +30,5 @@ Contributions, bug reports, and feature requests are welcome! Please fork the re
 **License**
 This project is licensed under the MIT License. See the LICENSE file for details.
 
+<img width="1323" height="640" alt="preview drago plugv22" src="https://github.com/user-attachments/assets/6d81aa87-3d22-4a0e-949b-692401808781" />
+<img width="1340" height="615" alt="preview drago plugv2" src="https://github.com/user-attachments/assets/075238b5-3196-494a-9414-dba6384c0752" />
