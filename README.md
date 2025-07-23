@@ -24,6 +24,13 @@
 - Admins can view detailed sales statistics through integrated UIs.
 - type /updateprices ingame to change the prices manually.
 
+**Dependancy**
+Qb-core
+qb-target
+qb-inventory
+
+You could probably make other Frameworks work as well 
+
 **Contribution**
 Contributions, bug reports, and feature requests are welcome! Please fork the repo and submit pull requests.
 
