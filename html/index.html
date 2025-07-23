@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Bolle Jos</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #444;
+            margin-bottom: 10px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #222;
+            color: #fff;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #444;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: flex;
+            gap: 20px;
+        }
+        .leaderboard, .player-stats {
+            flex: 1;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .leaderboard h3, .player-stats h3 {
+            margin-top: 0;
+        }
+        .dealer-message {
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <main class="container" style="display:none;">
+        <header class="header">
+            <h1>Bolle Jos</h1>
+            <button class="close-btn" onclick="closeUI()">×</button>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('verkoop')">💰 Verkoop</div>
+            <div class="tab" onclick="switchTab('stats')">📊 Statistieken</div>
+        </div>
+
+        <!-- Verkoop tab -->
+        <section id="verkoop" class="tab-content active">
+            <section class="item-list" id="item-list"></section>
+            <aside class="cart" id="cart">
+                <h2>Deal overzicht</h2>
+                <div id="cart-items"></div>
+                <div class="total">
+                    <span id="total-price">€0</span>
+                    <button class="submit-btn" onclick="submitCart()">Verkopen</button>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Statistieken tab -->
+        <section id="stats" class="tab-content">
+            <div class="leaderboard">
+                <h3>Top 3 Dealers</h3>
+                <ol id="leaderboard-list"></ol>
+            </div>
+            <div class="player-stats">
+                <h3>Jouw Stats</h3>
+                <p>Totale verkopen: <span id="player-sales">0</span></p>
+                <p>Totale winst: €<span id="player-profit">0</span></p>
+            </div>
+        </section>
+
+        <!-- Dealer boodschap -->
+        <section class="dealer-message">
+            <p>“Yoo, dit is de officiele plug van Bolle Jos, je kunt hier je drugs verkopen voor een mooi prijsje! 💸”</p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Functie om data te sturen naar Lua via fetch (NUI callback)
+        function sendNuiCallback(action, payload = {}) {
+            return fetch(`https://${GetParentResourceName()}/${action}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(response => response.json());
+        }
+
+        // NUI ontvangt data van Lua client.lua via window message
+        window.addEventListener('message', function(event) {
+            const data = event.data;
+            if (data.action === 'open') {
+                document.querySelector(".container").style.display = "block";
+                document.body.classList.add("menu-open");
+                loadItems(data.items);
+                if (data.stats) {
+                    updateStatsUI(data.stats.personal ? data.stats : { leaderboard: [], personal: { sales: 0, earned: 0 } });
+                }
+            } else if (data.action === 'close') {
+                closeUI();
+            } else if (data.action === 'statsData') {
+                updateStatsUI(data.data);
+            }
+        });
+
+        // Tab wisselen en bij stats tab stats opvragen via NUI callback
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(tab).classList.add('active');
+
+            if (tab === "stats") {
+                sendNuiCallback('requestStats').then(data => {
+                    updateStatsUI(data);
+                });
+            }
+        }
+
+        // Sluit het menu en vertel Lua dat het gesloten is
+        function closeUI() {
+            document.querySelector(".container").style.display = "none";
+            document.body.classList.remove("menu-open");
+
+            sendNuiCallback('close');
+            // SetNuiFocus kan alleen vanuit Lua, dus geen aanroep hier
+        }
+
+        // Functie om de stats UI te updaten (leaderboard en persoonlijke stats)
+        function updateStatsUI(data) {
+    const leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = "";
+
+        if (data.leaderboard && data.leaderboard.length > 0) {
+            data.leaderboard.forEach((entry, index) => {
+                leaderboardList.innerHTML += `<li>#${index + 1} ${entry.playerName} - €${entry.earned}</li>`;
+            });
+        } else {
+            leaderboardList.innerHTML = "<li>Geen data beschikbaar</li>";
+        }
+
+        document.getElementById("player-sales").innerText = data.personal.sales || 0;
+        document.getElementById("player-profit").innerText = data.personal.earned || 0;
+    }
+    </script>
+</body>
+</html>

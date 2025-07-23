@@ -1,0 +1,493 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+/* Reset + basis */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: transparent;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #f0f0f0;
+}
+
+body.menu-open {
+    background: rgba(0, 0, 0, 0.85);
+    transition: background 0.3s ease;
+}
+
+/* Container styling */
+.container {
+    width: 90%;
+    max-width: 1300px;
+    margin: 50px auto;
+    background: #101010;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Fade animatie */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.header button {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+.header button:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.9);
+    transform: scale(1.05);
+}
+
+/* Layout */
+.content {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* Item lijst */
+.item-list {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.item {
+    background: #171717;
+    border: 1px solid #2b2b2b;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 20px rgba(255, 75, 43, 0.1);
+}
+.item:hover {
+    background: #202020;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+.item img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 10px;
+}
+.item span {
+    margin-bottom: 5px;
+}
+.item input {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    color: white;
+    padding: 5px;
+    border-radius: 6px;
+    text-align: center;
+    width: 60px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+.item input:focus {
+    border-color: #ff4b2b;
+    outline: none;
+}
+.item button {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+.item button:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.7);
+    transform: scale(1.05);
+}
+
+/* Cart */
+.cart {
+    flex: 1;
+    background: #141414;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(255, 75, 43, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+}
+
+.cart h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+#cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 250px;
+    scrollbar-width: thin;
+    font-size: 16px;
+}
+
+/* Scrollbar (voor WebKit + Firefox) */
+#cart-items::-webkit-scrollbar {
+    width: 6px;
+}
+#cart-items::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #444, #666);
+    border-radius: 4px;
+}
+#cart-items::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/* Totaal + Verkoopknop */
+.total {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 10px;
+}
+
+.total button {
+    font-size: 1rem;
+    padding: 10px 16px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+.total button:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.9);
+    transform: scale(1.05);
+}
+
+.amount-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    gap: 6px;
+}
+
+.amount-selector button {
+    background: #444;
+    border: 1px solid #555;
+    color: #ccc;
+    font-weight: bold;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    padding: 0;
+    user-select: none;
+}
+
+.amount-selector button:hover {
+    background: #555;
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+}
+
+.amount-selector span {
+    background: #1e1e1e;
+    padding: 6px 12px;
+    border-radius: 6px;
+    min-width: 32px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid #333;
+    user-select: none;
+}
+
+/* Verberg de kleine pijltjes in number inputs */
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Dealer bericht */
+.dealer-message {
+    margin-top: 25px;
+    background: linear-gradient(135deg, #2b1f17, #3a261d);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    user-select: none;
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  .dealer-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid #f1c40f;
+    box-shadow: 0 0 10px #f1c40f;
+    flex-shrink: 0;
+  }
+  
+  .dealer-texts {
+    flex-grow: 1;
+    color: #f1c40f; /* warme gouden kleur */
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  .welcome-msg {
+    font-size: 18px;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+  
+  .dealer-tip {
+    font-size: 14px;
+    color: #ffb347; /* lichtere gouden tint */
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  /* Fade-in animatie (als nog niet aanwezig) */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+/* Tabs container */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #4b2e05; /* donkerbruine/oranje tint, subtiel */
+    margin-bottom: 24px;
+    gap: 12px;
+}
+
+/* Tab styling */
+.tab {
+    flex: 1;
+    padding: 14px 0;
+    text-align: center;
+    background: #121212; /* diep zwart/zwart-grijs */
+    color: #d87f29; /* warme, matte oranje */
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 14px 14px 0 0;
+    box-shadow: inset 0 -3px 0 transparent;
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    user-select: none;
+}
+
+.tab:hover {
+    background: #2f1b05; /* donkerder oranje/zwart */
+    color: #f2a040; /* iets helderder, maar nog warm */
+}
+
+.tab.active {
+    background: #e25822; /* levendig oranje zonder glow */
+    color: #fff;
+    font-weight: 700;
+    box-shadow: inset 0 -4px 0 #b4471a; /* subtiele onderlijn voor actief tab */
+}
+
+/* Containers wrapper */
+.tab-content {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    background: #121212; /* iets donkerder voor contrast */
+}
+
+/* Panel basisstijl */
+.leaderboard, .player-stats {
+    flex: 1 1 320px;
+    max-width: 360px;
+    min-height: 340px;
+    background: linear-gradient(145deg, #1f1f1f, #171717);
+    border-radius: 18px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    padding: 30px 28px;
+    color: #f0e6d2;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    user-select: none;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Subtiele hover */
+.leaderboard:hover, .player-stats:hover {
+    background: linear-gradient(145deg, #282828, #202020);
+    box-shadow: 0 0 20px rgba(255, 75, 43, 0.3);
+}
+
+.leaderboard h3, .player-stats h3 {
+    position: relative;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: #d18a30;
+    letter-spacing: 0.04em;
+    user-select: none;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+
+/* Strakke, subtiele lijn */
+.leaderboard h3::after, .player-stats h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 120px;       /* lijnlengte */
+    height: 2.5px;      /* lijndikte */
+    background-color: #d18a30; /* egaal oranje tint */
+    border-radius: 1.5px;       /* subtiel afgerond */
+    box-shadow: 0 1px 2px rgba(209, 126, 43, 0.5); /* zachte schaduw */
+    
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+/* Animatie op hover: lijn schuift uit */
+.leaderboard h3:hover::after, .player-stats h3:hover::after {
+    transform: scaleX(1);
+}
+
+
+
+/* Leaderboard lijst - iets strakker en moderner */
+.leaderboard ol {
+    flex-grow: 1;
+    margin: 0;
+    padding-left: 20px;
+    list-style-position: inside;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-weight: 600;
+    color: #e5b85a;
+    letter-spacing: 0.015em;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(209, 126, 43, 0.5) transparent;
+    padding-right: 12px;
+}
+
+/* Lijstitems - leesbaar en netjes uitgelijnd */
+.leaderboard ol li {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(209, 126, 43, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    cursor: default;
+    user-select: text;
+    background: transparent;
+    color: #f3c985;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    transition: none;
+}
+
+.player-stats p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #f3c985; /* iets dieper, goudkleurig */
+    line-height: 1.6;
+    margin: 12px 0;
+    user-select: text;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); /* subtiel schaduw voor betere leesbaarheid */
+    transition: color 0.25s ease;
+}
+
+.player-stats p:hover {
+    color: #e0af3e; /* lichte hover kleur voor iets meer flair, maar subtiel */
+    cursor: default;
+}
+
+
+/* Dealer message - subtiel, netjes onderaan */
+.dealer-message {
+    margin-top: auto;
+    font-style: italic;
+    font-size: 13px;
+    color: #b88a2e;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+
